@@ -1,11 +1,14 @@
 package com.reto.certificacion.stepsdefinitions;
 
+import com.github.rjeschke.txtmark.cmd.Run;
 import com.reto.certificacion.exeptions.CartExceptions;
 import com.reto.certificacion.questions.GetCart;
+import com.reto.certificacion.tasks.AddToCartFromPage;
 import com.reto.certificacion.tasks.AddToCartFromSearchBar;
 import com.reto.certificacion.tasks.SelectDelivery;
 import com.reto.certificacion.tasks.SelectPickUp;
 import com.reto.certificacion.utils.drivers.OwnWebDriver;
+import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -15,6 +18,8 @@ import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
 import net.serenitybdd.screenplay.actors.OnStage;
 import net.serenitybdd.screenplay.actors.OnlineCast;
 
+import javax.imageio.IIOException;
+import java.io.IOException;
 import java.util.List;
 
 import static net.serenitybdd.screenplay.actors.OnStage.theActorCalled;
@@ -40,7 +45,7 @@ public class SelectProductStepDefinition {
     }
 
 
-    @When("^he adds the product:(.*)$")
+    @When("^he adds the product from search bar:(.*)$")
     public void selectAProduct(String product) {
 
         theActorInTheSpotlight().attemptsTo(AddToCartFromSearchBar.the(product));
@@ -69,5 +74,16 @@ public class SelectProductStepDefinition {
 
         theActorInTheSpotlight().attemptsTo(SelectDelivery.toHome(district));
 
+    }
+
+    @When("^he adds the product from page:(.*)$")
+    public void heAddsTheProductFromPageJamónDePavitaOTTOKUNZPaqueteG(String product) {
+        theActorInTheSpotlight().attemptsTo(AddToCartFromPage.the(product));
+
+    }
+
+    @After
+    public void after () throws IOException {
+        Runtime.getRuntime().exec("cmd.exe /c mvn serenity:aggregate");
     }
 }
